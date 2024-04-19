@@ -57,6 +57,65 @@ List<Map<String,String>> categories = [
     "name":"Personal Care",
   },
 ];
+
+
+List<Map<String,String>> foodCategories = [
+  {
+    "image":"assets/images/Ellipse 1.png",
+    "name":"Tiffinnn",
+  },
+  {
+    "image":"assets/images/Ellipse_7.png",
+    "name":"Meals",
+  },
+  {
+    "image":"assets/images/Ellipse 2.png",
+    "name":"Biriyani",
+  },
+  {
+    "image":"assets/images/Ellipse 5.png",
+    "name":"Chicken",
+  },
+  {
+    "image":"assets/images/Ellipse 4.jpg",
+    "name":"Beaf & Mutton",
+  },
+  {
+    "image":"assets/images/Ellipse 6.png",
+    "name":"Chinese",
+  },
+  {
+    "image":"assets/images/Ellipse 3.png",
+    "name":"Pizza",
+  },
+  {
+    "image":"assets/images/Ellipse 1 (1).png",
+    "name":"Tea & Coffe",
+  },
+  // {
+  //   "image":"assets/images/pet.jpeg",
+  //   "name":"Pet Supplies",
+  // },
+  // {
+  //   "image":"assets/images/toys.jpeg",
+  //   "name":"Toys",
+  // },
+  // {
+  //   "image":"assets/images/sports.jpeg",
+  //   "name":"Sports & Fitness",
+  // },
+  // {
+  //   "image":"assets/images/books.webp",
+  //   "name":"Books",
+  // },
+  // {
+  //   "image":"assets/images/personal.jpg",
+  //   "name":"Personal Care",
+  // },
+];
+
+
+
 List<Map<String,dynamic>> todayDeals = [
   {
     "pid":"",

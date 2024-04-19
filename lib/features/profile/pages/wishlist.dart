@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../widgets/wishlist_widgets.dart';
-import 'account.dart';
+import 'accounts_srn.dart';
 
 class WishList extends StatefulWidget {
   const WishList({super.key});

@@ -380,7 +380,7 @@ Widget restaurantView(String path, String name, String location, int from,
     int to, double ratings) {
   return Container(
     width: double.infinity,
-    height: 165,
+    height: 165,  
     padding: const EdgeInsets.all(10),
     decoration: const BoxDecoration(
       border: Border.symmetric(
@@ -394,7 +394,8 @@ Widget restaurantView(String path, String name, String location, int from,
             margin: const EdgeInsets.only(right: 5),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(path),
+                // image: AssetImage(path),
+                image: NetworkImage(path),
                 fit: BoxFit.fill,
               ),
             ),
@@ -1094,7 +1095,13 @@ Widget productSharpBox(String path, String pName, String oldPrice, String newPri
   );
 }
 
-Widget foodItemBox() {
+
+
+
+
+Widget  foodItemBox() {
+
+
   return Container(
     padding: const EdgeInsets.only(top: 7),
     child: Row(
@@ -1149,8 +1156,8 @@ Widget foodItemBox() {
                           decoration: BoxDecoration(
                               border:
                                   Border.all(color: const Color(0xff870081))),
-                          child: const Text(
-                            "0",
+                          child:  Text(
+                            '1',
                             style: TextStyle(
                                 color: Color(0xff870081),
                                 fontSize: 20,
@@ -1158,7 +1165,9 @@ Widget foodItemBox() {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            
+                          },
                           child: Container(
                             decoration: const BoxDecoration(
                                 color: Color(0xff870081),

@@ -11,14 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
-class OrderPage1 extends StatefulWidget {
-  const OrderPage1({super.key});
+class MyCart extends StatefulWidget {
+  const MyCart({super.key});
 
   @override
-  State<OrderPage1> createState() => _OrderPage1State();
+  State<MyCart> createState() => _MyCartState();
 }
 
-class _OrderPage1State extends State<OrderPage1> {
+class _MyCartState extends State<MyCart> {
 
 
 
@@ -36,7 +36,7 @@ class _OrderPage1State extends State<OrderPage1> {
 
 
   //  late Future<List<SingleUsersData>> futureSingleUsersdata;
-  List<SingleUsersData> singleUsersData = [];
+  List<User> singleUsersData = [];
 
   late String userId;
 
@@ -53,7 +53,7 @@ class _OrderPage1State extends State<OrderPage1> {
       // return singleUsersData.map((json1) => SingleUsersData.fromJson(json1)).toList();
       setState(() {
         singleUsersData =
-            jsonResponse.map((data) => SingleUsersData.fromJson(data)).toList();
+            jsonResponse.map((data) => User.fromJson(data)).toList();
 
         // _isLoading = false;
       });
@@ -62,6 +62,40 @@ class _OrderPage1State extends State<OrderPage1> {
     }
   }
 
+// static List<SmAllClientsDataModel> _smAllClientsDataModel = [];
+
+//   // AdProAllUsersDataModel _smAllClientsDataModel = AdProAllUsersDataModel();
+
+//   Future<void> _fetchSmClientsData() async {
+//     late String ad_pro_user_id;
+
+//     SharedPreferences preferences = await SharedPreferences.getInstance();
+//     ad_pro_user_id = preferences.getString("uid2").toString();
+
+//     final response = await http
+//         .get(Uri.parse("http://${ApiService.ipAddress}/all_client_data"));
+
+//     if (response.statusCode == 200) {
+//       List<dynamic> jsonResponse = jsonDecode(response.body);
+//       setState(() {
+//         _smAllClientsDataModel = jsonResponse
+//             .map((data) => SmAllClientsDataModel.fromJson(data))
+//             .toList();
+
+//         _isLoading = false;
+//       });
+
+//       debugPrint(_smAllClientsDataModel[0].email);
+//       debugPrint(_smAllClientsDataModel[0].phoneNumber);
+//       debugPrint(_smAllClientsDataModel[1].clientLocation);
+//       debugPrint(_smAllClientsDataModel[1].googleMap);
+
+//       debugPrint(response.statusCode.toString());
+//       // debugPrint(response.body);
+//     } else {
+//       throw Exception('Failed to load data');
+//     }
+//   }
 
   @override
   void initState() {
@@ -84,7 +118,7 @@ class _OrderPage1State extends State<OrderPage1> {
               size: 34,
             )),
         title: const Text(
-          'Orders',
+          'My Cart',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -94,11 +128,9 @@ class _OrderPage1State extends State<OrderPage1> {
           // Text(singleUsersData.toString())
           Column(
         children: [
-          // profile(context, "Saran", "saran@gmail.com"),
-          const SizedBox(
-            height: 20,
-          ),
-          // accountList()
+
+          SizedBox(height: 20,),
+         
 
 
 
@@ -114,34 +146,29 @@ class _OrderPage1State extends State<OrderPage1> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Trendy Women Dress'),
+                    const Text('525'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text(
-                            'Delivery by 22/05/2024',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        
-
+                        Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.blue)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Text(
+                                'Order Now',
+                                style: TextStyle(color: Colors.green),
+                              ),
+                            )),
+                        const Row(
+                          children: [
+                            Icon(Icons.remove),
+                            Text('Remove'),
+                          ],
+                        )
                       ],
                     ),
-
-                    Row(
-                      children: [
-                        Icon(Icons.star, color: Colors.green,),
-                        Icon(Icons.star, color: Colors.green,),
-                        Icon(Icons.star, color: Colors.green,),
-                        Icon(Icons.star, color: Colors.green,),
-                        Icon(Icons.star_border_outlined, color: Colors.green,),
-                        
-
-                      ],
-                    ),
-
-                    Text('Post Your Review', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.blue),)
                   ],
                 ),
                 // trailing: Icon(Icons.edit),

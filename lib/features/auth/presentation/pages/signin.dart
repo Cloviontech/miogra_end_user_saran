@@ -14,6 +14,7 @@ class signin extends StatefulWidget {
 
   final String? productId;
   final String? shopId;
+  
   const signin({Key? key, this.productId, this.shopId}) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class _signinState extends State<signin> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     await prefs.setString('api_response', response);
+    print('response $response');
   }
 
   void sendPostRequestSignIn() async {
@@ -49,7 +51,16 @@ class _signinState extends State<signin> {
         print('SignIn successfully');
         String responseBody = await response.stream.bytesToString();
         responseBody = responseBody.trim().replaceAll('"', '');
-        await saveResponseInSharedPreferences(responseBody);
+
+        print('userId $responseBody');
+         saveResponseInSharedPreferences(responseBody);
+  //        SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  setState(() {
+
+  //     prefs.setString('api_response', responseBody);
+     
+  //  });
+   
         // Redirect to approval page
 
 

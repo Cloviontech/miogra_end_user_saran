@@ -47,6 +47,7 @@ dependencies:
   equatable: ^2.0.5
   order_tracker: ^0.0.2
   google_fonts: ^6.2.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -10,12 +10,13 @@ import 'package:miogra/features/food/presentation/pages/food_landing_page.dart';
 import 'package:miogra/features/freshCuts/presentation/pages/fresh_cut_landing_page.dart';
 import 'package:miogra/features/jewellery/presentation/pages/jewellery_landing_page.dart';
 import 'package:miogra/features/pharmacy/presentation/pages/pharmacy_landing_page.dart';
-import 'package:miogra/features/profile/pages/account.dart';
+import 'package:miogra/features/profile/pages/accounts_srn.dart';
+import 'package:miogra/features/profile/pages/myCart_srn.dart';
 import 'package:miogra/features/profile/pages/order.dart';
-import 'package:miogra/features/profile/pages/order_1.dart';
+import 'package:miogra/features/profile/pages/order_1_srn.dart';
 import 'package:miogra/features/profile/pages/return.dart';
 import 'package:miogra/features/profile/pages/wishlist.dart';
-import 'package:miogra/features/profile/pages/wishlist1.dart';
+import 'package:miogra/features/profile/pages/wishlist1_srn.dart';
 import 'package:miogra/features/shopping/presentation/pages/shopping_landing_page.dart';
 import 'package:miogra/features/usedProducts/pages/used_products_landing_page.dart';
 import 'package:badges/badges.dart' as badge;
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // UserSignedIn = true;
     });
 
-    prefs.clear();
+    // prefs.clear();
   }
 
   void _onItemTapped(int index) {
@@ -57,9 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _pages = [
     const WishList(),
-    const ReturnPage(),
+    const MyCart(),
+    // const ReturnPage(),
     // const OrderPage(),
-    OrderPage1(),
+    const OrderPage1(),
     const Wishlist1(),
     const Account(),
     // signin(),
@@ -251,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     TabBarView(
                   children: [
                     ShoppingLadingPage(),
-                    const FoodLandingPage(),
+                     FoodLandingPage(),
                     const FreshCutLandingPage(),
                     const DailyMioLandingPage(),
                     const JewelleryLandingPage(),
@@ -265,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 //  UserSignedIn == false
 
-                ? signup()
+                ? const signup()
                 : _pages.elementAt(selectedIndexBotNav),
 
         bottomNavigationBar: SizedBox(

@@ -36,7 +36,7 @@ class _Wishlist1State extends State<Wishlist1> {
 
 
   //  late Future<List<SingleUsersData>> futureSingleUsersdata;
-  List<SingleUsersData> singleUsersData = [];
+  List<User> singleUsersData = [];
 
   late String userId;
 
@@ -53,7 +53,7 @@ class _Wishlist1State extends State<Wishlist1> {
       // return singleUsersData.map((json1) => SingleUsersData.fromJson(json1)).toList();
       setState(() {
         singleUsersData =
-            jsonResponse.map((data) => SingleUsersData.fromJson(data)).toList();
+            jsonResponse.map((data) => User.fromJson(data)).toList();
 
         // _isLoading = false;
       });
@@ -128,7 +128,7 @@ class _Wishlist1State extends State<Wishlist1> {
           // Text(singleUsersData.toString())
           Column(
         children: [
-          profile(context, "Saran", "saran@gmail.com"),
+          // profile(context, "Saran", "saran@gmail.com"),
           const SizedBox(
             height: 20,
           ),

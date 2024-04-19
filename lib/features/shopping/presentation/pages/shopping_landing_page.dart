@@ -167,7 +167,7 @@ class _ShoppingLadingPageState extends State<ShoppingLadingPage> {
 
 
                        SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    // prefs.clear();
 
 
 

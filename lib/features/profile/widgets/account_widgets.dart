@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:miogra/features/profile/pages/edit_account.dart';
+import 'package:miogra/features/profile/pages/edit_account_srn.dart';
 import '../pages/wishlist.dart';
 
 Widget profile(BuildContext context, String userName, String userEmail) {
@@ -17,19 +17,19 @@ Widget profile(BuildContext context, String userName, String userEmail) {
     ),
     child: Row(
       children: [
-        Expanded(flex: 2,child: Container(
-          height: 75,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.blueGrey,
-              image: DecorationImage(
-                image: AssetImage('assets/free-images.jpg'),
-                fit: BoxFit.fill,
+        // Expanded(flex: 2,child: Container(
+        //   height: 75,
+        //   width: double.infinity,
+        //   decoration: const BoxDecoration(
+        //       shape: BoxShape.circle,
+        //       color: Colors.blueGrey,
+        //       image: DecorationImage(
+        //         image: AssetImage('assets/free-images.jpg'),
+        //         fit: BoxFit.fill,
 
-              )
-          ),
-        )),
+        //       )
+        //   ),
+        // )),
          Expanded(flex: 5,child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
