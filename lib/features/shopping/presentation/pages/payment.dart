@@ -17,49 +17,44 @@ class _PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: Colors.purple,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const QtyPage()));
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-                size: 30,
-              )),
-          title: const Text(
-            'Payment',
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-        ),
-        body: orderSummery(context),
-         bottomNavigationBar: ElevatedButton(
-          style: ButtonStyle(
-            minimumSize: MaterialStateProperty.all(const Size(250, 50)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
-            )),
-            backgroundColor: MaterialStateProperty.all(Colors.purple),
-          ),
-          onPressed: () {
-
+        backgroundColor: Colors.purple,
+        leading: IconButton(
+            onPressed: () {
               Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const OrderSuccess()));
-              
-
-
-
-            
-          },
-          child: const Text(
-            'Continue',
-            style: TextStyle(color: Colors.white, fontSize: 24),
-          ),
+                  MaterialPageRoute(builder: (context) => const QtyPage()));
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: 30,
+            )),
+        title: const Text(
+          'Payment',
+          style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
+      ),
+      body: orderSummery1(context),
+      bottomNavigationBar: ElevatedButton(
+        style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(const Size(250, 50)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+          )),
+          backgroundColor: MaterialStateProperty.all(Colors.purple),
+        ),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OrderSuccess()));
+        },
+        child: const Text(
+          'Continue',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+      ),
     );
   }
 }

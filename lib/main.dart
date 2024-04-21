@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:miogra/core/theme.dart';
-import 'package:miogra/features/auth/presentation/pages/signin.dart';
 import 'package:miogra/features/home_page/home_page.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(                         
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       // theme: ThemeData(

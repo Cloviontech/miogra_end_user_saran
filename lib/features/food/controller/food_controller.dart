@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:miogra/core/api_services.dart';
 import 'package:miogra/features/food/models_foods/food_alldata.dart';
 import 'package:http/http.dart' as http;
+import 'package:miogra/features/food/models_foods/food_get_products_model.dart';
 import 'package:miogra/features/food/models_foods/my_food_data.dart';
 
 
@@ -40,3 +41,20 @@ Future<List<FoodAlldata>> fetchFoodAllData() async {
         throw Exception('Failed to load user');
         }
         }
+
+
+
+//  for FoodGetProducts
+Future<List<FoodGetProducts>> fetchFoodGetProducts(String foodId) async {
+  final response = await http.get(Uri.parse(
+      'http://${ApiServices.ipAddress}/food_get_products/$foodId'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> data = json.decode(response.body);
+
+    
+    return data.map((json) => FoodGetProducts.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load products');
+  }
+}
