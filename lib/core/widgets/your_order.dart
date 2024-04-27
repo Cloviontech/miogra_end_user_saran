@@ -2,23 +2,26 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:miogra/controllers/shopping/fetch_category.dart';
+import 'package:miogra/core/widgets/common_widgets.dart';
 import 'package:miogra/features/auth/presentation/pages/signin.dart';
 import 'package:miogra/features/profile/pages/address.dart';
 import 'package:miogra/features/shopping/presentation/pages/payment.dart';
 import 'package:miogra/features/profile/pages/qty.dart';
+import 'package:miogra/models/freshcuts/single_freshproduct_model.dart';
 import 'package:miogra/models/shopping/get_single_shopproduct.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/order_track_widgets.dart';
-import '../widgets/qty_widget.dart';
-import '../widgets/your_order_widgets.dart';
+import '../../features/profile/widgets/order_track_widgets.dart';
+import '../../features/profile/widgets/qty_widget.dart';
+import '../../features/profile/widgets/your_order_widgets.dart';
 
 const List list = [1,2,3,4,5,6,7,8,9,10];
 
 class YourOrderPage extends StatefulWidget {
   final String? productId;
   final String? shopId;
-  const YourOrderPage({super.key, this.productId, this.shopId});
+  final String? link;
+  const YourOrderPage({super.key, this.productId, this.shopId, this.link});
 
   @override
   State<YourOrderPage> createState() => _YourOrderPageState();
@@ -42,13 +45,13 @@ class _YourOrderPageState extends State<YourOrderPage> {
   int discount = 0;
   
 
-  late Future<List<GetSingleShopproduct>> futureSingleProducts;
+  late Future<List<SingleFreshproduct>> futureSingleProducts;
 
   @override
   void initState() {
     super.initState();
-    futureSingleProducts = fetchSingleProducts(
-        widget.shopId.toString(), widget.productId.toString());
+    futureSingleProducts = fetchSingleFreshCutProducts1(
+        widget.shopId.toString(), widget.productId.toString(), );
 
     getUserIdInSharedPreferences();
   }
@@ -98,7 +101,7 @@ class _YourOrderPageState extends State<YourOrderPage> {
                 : Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  AddressPage(userId: userId.toString())));
+                        builder: (context) =>  SelectPaymentMethod( cartlist: [], addressIndex: 0, selectedFoods: [],)));
           },
           child: const Text(
             'Continue',
@@ -117,7 +120,7 @@ class _YourOrderPageState extends State<YourOrderPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  FutureBuilder<List<GetSingleShopproduct>>(
+                  FutureBuilder<List<SingleFreshproduct>>(
                       future: futureSingleProducts,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -414,6 +417,10 @@ class _YourOrderPageState extends State<YourOrderPage> {
                               priceContainer(context: context, sellingPrice: snapshot.data![0].product!.sellingPrice!.toDouble(), qty: dropdownValue, deliveryPrice: 50, discount: 33, ),
                             ],
                           );
+                       
+                       
+                       
+                       
                         }
                       }),
                 ],

@@ -6,6 +6,8 @@ import 'package:miogra/core/data.dart';
 import 'package:miogra/core/product_box.dart';
 import 'package:miogra/features/food/controller/food_controller.dart';
 import 'package:miogra/features/food/models_foods/food_alldata.dart';
+import 'package:miogra/features/food/presentation/pages/food_product_page.dart';
+import 'package:miogra/features/freshCuts/presentation/widgets/fresh_cuts_product_page.dart';
 import 'package:miogra/features/shopping/presentation/pages/shopping_landing_page.dart';
 import 'food_items.dart';
 
@@ -140,8 +142,9 @@ class _FoodLandingPageState extends State<FoodLandingPage> {
                   return categoryItem(foodCategories[index]['image']!,
                       foodCategories[index]['name']!, () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>  FoodItems(
-                              foodId: '',
+                        builder: (context) =>  FoodProductsPage(
+                              // foodId: '',
+                               categoryName: foodCategories[index]['name']!, subCategoryName: 'food',
                             )));
                   });
                 },
@@ -183,7 +186,7 @@ class _FoodLandingPageState extends State<FoodLandingPage> {
                             context,
                             MaterialPageRoute(builder: (context) {
                               return FoodItems(
-                                foodId: snapshot.data![index].foodId.toString(),
+                                foodId: snapshot.data![index].foodId.toString(), categoryName: 'food',
                               );
                             }),
                           );

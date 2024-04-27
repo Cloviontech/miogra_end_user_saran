@@ -1,12 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:miogra/features/profile/pages/address.dart';
+import 'package:miogra/models/cart/cartlist_model.dart';
 import 'package:order_tracker/order_tracker.dart';
 
 import '../pages/qty.dart';
 import '../pages/return.dart';
 
-Widget addressContainer(BuildContext context) {
+Widget addressContainer(BuildContext context, 
+
+String name,
+String doorNo,
+String area,
+String lanmark,
+String place,
+String district,
+String state,
+String pincode,
+
+
+
+
+) {
   return Container(
-    height: MediaQuery.of(context).size.height*0.22,
+    // height: MediaQuery.of(context).size.height*0.22,
     width: double.infinity,
     decoration: const BoxDecoration(
         color: Colors.white,
@@ -17,20 +34,54 @@ Widget addressContainer(BuildContext context) {
           )
         ]
     ),
-    child: const Column(
+    padding: EdgeInsets.all(10),
+    child:  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text('Delivered to',style: TextStyle(fontSize: 19,fontWeight: FontWeight.w500),),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton.icon(onPressed: (){}, icon: Icon(Icons.location_on_outlined, color: Colors.black,),
+             label: Text('Delivery Address',style: TextStyle(fontSize: 19,fontWeight: FontWeight.w500, color: Colors.black), ),),
+             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){return AddressPage(amountToBePaid: '', userId: '', cartlist: [],);}));
+              },
+               child: Container(
+                decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(5)),
+                padding: EdgeInsets.only(left: 5,right: 5),
+                child: Text('Change',style: TextStyle(fontSize: 19,fontWeight: FontWeight.w500),),
+                           ),
+             ),
+          ],
         ),
         Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text('Abijith',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+          child: Text(name,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text('1st  Floor, Sridattatrayaswamy Temp Complex, Gandhi Nagar , Bangalore , Karnataka ,  560009',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+          child: Text('$doorNo, $area',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('$lanmark,',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+        ),
+         Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('$place',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+        ),
+         Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('$district, ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('$state,',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
+        ),
+         Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('$pincode,',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),),
         ),
       ],
     ),

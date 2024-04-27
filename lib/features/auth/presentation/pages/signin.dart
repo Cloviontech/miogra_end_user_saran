@@ -71,7 +71,7 @@ class _signinState extends State<signin> {
         ) :
          Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const AddressPage(userId: '',)),
+          MaterialPageRoute(builder: (context) =>  AddressPage (amountToBePaid: '', userId: responseBody, cartlist: [],)),
         );
       } else {
         // Display a Snackbar when the response is not 200

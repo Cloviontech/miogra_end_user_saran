@@ -84,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // appBar: AppBar(title: Text(userId),),
         body: selectedIndexBotNav == 0
             ? NestedScrollView(
-                floatHeaderSlivers: true,
                 headerSliverBuilder: (context, scroll) => [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
@@ -92,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     sliver: SliverSafeArea(
                       top: false,
                       sliver: SliverAppBar(
+                        
                         backgroundColor: const Color(0xFF870081),
                         leading: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -240,6 +240,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
+                    
+                    
                     ),
                   ),
                 ],

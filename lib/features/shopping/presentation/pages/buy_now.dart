@@ -32,7 +32,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     super.initState();
-    futureSingleProducts = fetchSingleProducts(widget.shopId.toString(), widget.productId.toString());
+    futureSingleProducts = fetchSingleShopProducts(widget.shopId.toString(), widget.productId.toString(), 'all_shopproducts');
   }
   @override
   Widget build(BuildContext context) {

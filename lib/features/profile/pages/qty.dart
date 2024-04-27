@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:miogra/features/profile/pages/your_order.dart';
+import 'package:miogra/core/widgets/your_order.dart';
 
 import '../widgets/order_track_widgets.dart';
 import '../widgets/qty_widget.dart';

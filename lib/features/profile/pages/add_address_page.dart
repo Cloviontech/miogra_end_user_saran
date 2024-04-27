@@ -1,10 +1,17 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:miogra/core/api_services.dart';
 import 'package:miogra/core/constants.dart';
 import 'package:miogra/features/profile/controller/address_from_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'address.dart';
+import 'package:http/http.dart' as http;
 
 class AddAddressPage extends StatefulWidget {
-  const AddAddressPage({super.key});
+  const AddAddressPage({super.key, required this.userId});
+
+  final String userId;
 
   @override
   State<AddAddressPage> createState() => _AddAddressPageState();
@@ -12,12 +19,69 @@ class AddAddressPage extends StatefulWidget {
 
 class _AddAddressPageState extends State<AddAddressPage> {
 
+// late String userId;
+
+ late String uidUser;
+
+  
+
+  void uploadAddress() async {
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // preferences.clear();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // setState(() {
+    //   userId = prefs.getString("api_response").toString();
+    // });
+
+    var headers = {
+      'Context-Type': 'application/json',
+    };
+
+    var requestBody = {     
+
+      'doorno': doorController.text,
+      'area': areaController.text,
+      'landmark': lanMarkController.text,
+      'place': placeController.text,
+      'district': districtController.text,
+      'state': stateController.text,
+      'pincode': pinCodeController.text,
+      
+
+    };
+    
+    print('Address Uploading Processing');
+
+    print(widget.userId);
+
+
+   
+    var response = await http.post(
+      Uri.parse("http://${ApiServices.ipAddress}/end_user_address/${widget.userId}"),
+      
+
+      headers: headers,
+      body: requestBody,
+    );
+
+    if (response.statusCode == 200) {
+      
+      print(response.statusCode);
+      print('Address Uploaded Successfully');
+    } 
+    else {
+      print('status code : ${response.statusCode}');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: Text(widget.userId),
         backgroundColor: Colors.purple,
         leading: IconButton(onPressed: () {
           Navigator.pop(context);
@@ -188,6 +252,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
               ),
             ),
             ElevatedButton(onPressed: (){
+              print('button clicked');
+
+              
+              uploadAddress();
+              // uploadAddress1();
               addressAdd.add(
                 {
                   'name': nameController.text,
@@ -202,6 +271,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   'state':stateController.text
                 }
               );
+
+
+
               nameController.clear();
               mobileController.clear();
               alterNateNumController.clear();
@@ -212,7 +284,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
               placeController.clear();
               districtController.clear();
               stateController.clear();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddressPage(userId: '',)));
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddressPage(amountToBePaid: '', userId: widget.userId, cartlist: [], )));
             },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -224,6 +297,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
           ],
         ),
       ),
+     
     );
   }
 }

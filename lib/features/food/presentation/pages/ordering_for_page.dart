@@ -5,11 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:miogra/core/api_services.dart';
+import 'package:miogra/core/widgets/common_widgets.dart';
+import 'package:miogra/features/auth/presentation/pages/signin.dart';
 import 'package:miogra/features/dOriginal/presentation/pages/d_original_check_out.dart';
 import 'package:miogra/features/food/models_foods/food_get_products_model.dart';
 import 'package:miogra/features/food/models_foods/single_foodproduct_model.dart';
+import 'package:miogra/features/profile/pages/address.dart';
 import 'package:miogra/features/profile/pages/qty.dart';
 import 'package:http/http.dart' as http;
+import 'package:miogra/models/freshcuts/all_freshcutproducts_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderingFor extends StatefulWidget {
   const OrderingFor(
@@ -17,37 +22,81 @@ class OrderingFor extends StatefulWidget {
       required this.totalPrice,
       required this.totalQty,
       required this.selectedFoods,
-      required this.qty});
+      required this.qty, required this.productCategory, 
+      this.noOfProd, this.fromWhichPage,
+
+      });
 
   final int totalPrice;
   final int totalQty;
   final List selectedFoods;
+  final String productCategory;
 
   final List<int> qty;
+
+  final String? noOfProd;
+  final String? fromWhichPage;
 
   @override
   State<OrderingFor> createState() => _OrderingForState();
 }
 
 class _OrderingForState extends State<OrderingFor> {
-  static List<SingleFoodproduct> single_foodproduct = [];
 
-  static List<List<SingleFoodproduct>> selected_single_foodproducts_list = [];
+
+ String userId ='a';
+
+  Future<void> getUserIdInSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString("api_response").toString();
+    });
+  }
+
+  static List<AllFreshcutproducts> single_foodproduct = [];
+
+  static List<List<AllFreshcutproducts>> selected_single_foodproducts_list = [];
 
   Future<void> fetchsingle_foodproduct(String foodId, String productId) async {
-    final response = await http.get(Uri.parse(
-        'http://${ApiServices.ipAddress}/single_foodproduct/$foodId/$productId'));
+    final response = 
+
+    widget.productCategory =='food' ?
+
+     await http.get(Uri.parse(
+        'http://${ApiServices.ipAddress}/single_foodproduct/$foodId/$productId')):
+    
+    
+     widget.productCategory =='freshCuts' ?
+    
+    await http.get(Uri.parse(
+        'http://${ApiServices.ipAddress}/single_freshproduct/$foodId/$productId')):
+
+       
+       
+       
+         await http.get(Uri.parse(
+        'http://${ApiServices.ipAddress}/single_jewelproduct/$foodId/$productId'));
+
+
+
+
+
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
 
       setState(() {
         single_foodproduct = jsonResponse
-            .map((data) => SingleFoodproduct.fromJson(data))
+            .map((data) => AllFreshcutproducts.fromJson(data))
             .toList();
 
         selected_single_foodproducts_list.add(single_foodproduct);
+
+        debugPrint('selected_single_foodproducts_list : $selected_single_foodproducts_list');
+
       });
+
+      debugPrint(single_foodproduct.toString());
 
       // return data.map((json) => FoodGetProducts.fromJson(json)).toList();
     } else {
@@ -62,6 +111,17 @@ class _OrderingForState extends State<OrderingFor> {
     }
   }
 
+
+   Future<void> putProductDataToSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
+    await prefs.setString('finalPrice', widget.totalPrice.toString());
+    await prefs.setString('qty', widget.totalQty.toString());
+    // await prefs.setString('address', widget. .toString());
+    
+    // print('response $response');
+  }
+
   int selectWhomFor = 1;
   // bool foodForMe = true;
   // bool foodForOthers = false;
@@ -73,220 +133,235 @@ class _OrderingForState extends State<OrderingFor> {
     selected_single_foodproducts_list = [];
 
     retrieveSelectedProducts();
+
+     getUserIdInSharedPreferences();
+     putProductDataToSharedPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      // backgroundColor: Colors.grey.shade200,
+
+      
 
       // Color(0xfffff8fe,
 
       // ),
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const QtyPage()));
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: 30,
-            )),
-      ),
+      // appBar: AppBar(
+        // backgroundColor: Colors.purple,
+        // backgroundColor: const Color(0xff870081),
+        
+        // leading: IconButton(
+        //     onPressed: () {
+        //       Navigator.push(context,
+        //           MaterialPageRoute(builder: (context) => const QtyPage()));
+        //     },
+        //     icon: const Icon(
+        //       Icons.arrow_back,
+        //       color: Colors.white,
+        //       size: 30,
+        //     )),
+        //     title: Text('Test'),
+      // ),
 
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  // Text(selected_single_foodproducts_list[0][0].product.name[0]),
-                  // // Text(selected_single_foodproducts_list[1][0].product.name[0]),
-
-                  // Text(single_foodproduct[0].product.name[0]),
-
-                  // Text(widget.qty.toString()),
-
-                  // Text(widget.selectedFoods.toString()),
-                  Center(
-                      child: Text(
-                    'Ordering For',
-                    style: themeData.textTheme.titleLarge,
-                  )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile(
-                          value: 1,
-                          groupValue: selectWhomFor,
-                          onChanged: (value) {
-                            setState(() {
-                              selectWhomFor = value!;
-                            });
-                          },
-                          title: const Text(
-                            'MySelf',
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: RadioListTile(
-                          value: 2,
-                          groupValue: selectWhomFor,
-                          onChanged: (value) {
-                            setState(() {
-                              selectWhomFor = value!;
-                            });
-                          },
-                          title: const Text(
-                            'Somebody Else',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Text(foodForWhom.toString()),
-                ],
-              ),
-            ),
-
-            const SizedBox(
-              height: 5,
-            ),
-
-            deliveryAddress(),
-
-            ListView.builder(
-              itemCount: selected_single_foodproducts_list.length,
-              shrinkWrap: true,
-              controller: ScrollController(),
-              itemBuilder: (context, index) 
-              
-              {
-
-
-              return Column(
-                children: [
-                   Divider() ,
-                  orderedFoods(context,
-                    selected_single_foodproducts_list[index][0].product.name[0],
-                  int.parse(selected_single_foodproducts_list[index][0].product.actualPrice[0]),
-                               selected_single_foodproducts_list[index][0].product.sellingPrice.toInt(),
-                  selected_single_foodproducts_list[index][0].product.subcategory[0],
-                  selected_single_foodproducts_list[index][0].product.primaryImage,
-                  
-                  
-                  ),
-
-                  // selected_single_foodproducts_list.length > 1 ? 
-                  Divider() 
-                  
-                  // : SizedBox()
-                ],
-              );
-            }),
-
-            //  orderedFoods(),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              color: Colors.white,
-              // height: 250,
-              child:  Padding(
-                padding: EdgeInsets.all(30.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              Container(
+                color: Colors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Price Details',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Text(widget.selectedFoods.toString()),
+
+                    Text(selected_single_foodproducts_list.toString()),
+                    
+          
+                    // Text(selected_single_foodproducts_list[0][0].product.name[0]),
+                    // Text(selected_single_foodproducts_list[1][0].product.name[0]),
+                    // Text(single_foodproduct[0].product.name[0]),
+          
+                    // Text(widget.qty.toString()),
+          
+                    // Text(widget.selectedFoods.toString()),
+                    Center(
+                        child: Text(
+                      'Ordering For',
+                      style: themeData.textTheme.titleLarge,
+                    )),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Price ( Items)',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
+                        Expanded(
+                          child: RadioListTile(
+                            value: 1,
+                            groupValue: selectWhomFor,
+                            onChanged: (value) {
+                              setState(() {
+                                selectWhomFor = value!;
+                              });
+                            },
+                            title: const Text(
+                              'MySelf',
+                            ),
                           ),
                         ),
-                        Text(' : '),
-                        Text(
-                          '₹ ${widget.totalPrice}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: RadioListTile(
+                            value: 2,
+                            groupValue: selectWhomFor,
+                            onChanged: (value) {
+                              setState(() {
+                                selectWhomFor = value!;
+                              });
+                            },
+                            title: const Text(
+                              'Somebody Else',
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Delivery Fees',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(' : '),
-                        Text(
-                          '₹ ${50} ',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Order Total',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(' : '),
-                        Text(
-                          '₹  ${widget.totalPrice + 50}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Text(foodForWhom.toString()),
                   ],
                 ),
               ),
-            )
-          ],
+          
+              const SizedBox(
+                height: 5,
+              ),
+          
+              deliveryAddress(),
+          
+              ListView.builder(
+                itemCount: selected_single_foodproducts_list.length,
+                shrinkWrap: true,
+                controller: ScrollController(),
+                itemBuilder: (context, index) 
+                
+                {
+          
+          
+                return Column(
+                  children: [
+                     Divider() ,
+                    orderedFoods(context,
+                      selected_single_foodproducts_list[index][0].product.name![0],
+                    int.parse(selected_single_foodproducts_list[index][0].product.actualPrice[0]),
+                                 selected_single_foodproducts_list[index][0].product.sellingPrice.toInt(),
+                    selected_single_foodproducts_list[index][0].product.subcategory[0],
+                    selected_single_foodproducts_list[index][0].product.primaryImage,
+                    
+                    
+                    ),
+          
+                    // selected_single_foodproducts_list.length > 1 ? 
+                    Divider() 
+                    
+                    // : SizedBox()
+                  ],
+                );
+              }),
+          
+              //  orderedFoods(),
+              const SizedBox(
+                height: 5,
+              ),
+              Container(
+                color: Colors.white,
+                // height: 250,
+                child:  Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Price Details',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Price (${widget.qty.reduce((value, element) => value + element)} Items)',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(' : '),
+                          Text(
+                            '₹ ${widget.totalPrice}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Delivery Fees',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(' : '),
+                          Text(
+                            '₹ ${50} ',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Order Total',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(' : '),
+                          Text(
+                            '₹  ${widget.totalPrice + 50}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
 
@@ -315,7 +390,7 @@ class _OrderingForState extends State<OrderingFor> {
                   // ),
 
                   AutoSizeText(
-                ' Items | ₹ ',
+                '${widget.qty.reduce((value, element) => value + element)} Items  | ₹ ${widget.totalPrice + 50} ',
                 minFontSize: 18,
                 maxFontSize: 24,
                 maxLines: 1, // Adjust this value as needed
@@ -337,12 +412,47 @@ class _OrderingForState extends State<OrderingFor> {
                 )),
                 backgroundColor: MaterialStateProperty.all(Colors.purple),
               ),
-              onPressed: () {
+              onPressed: () async{
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
-                //         builder: (context) =>  OrderingFor(totalPrice: 2000,)));
-              },
+                //         builder: (context) =>  AddressPage(amountToBePaid: '${widget.totalPrice + 50}')));
+              // 
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('totalPrice', '${widget.totalPrice + 50}');
+
+
+    print('userId : $userId');
+
+
+
+
+
+            userId == null.toString()
+                ? Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const signin()))
+                : (widget.noOfProd == 'single') ? 
+
+                 Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  SelectPaymentMethod(selectedFoods: widget.selectedFoods, 
+                        addressIndex: 0, cartlist: [],
+                        totalAmount: widget.totalPrice +50,
+                        noOfProds: widget.noOfProd,
+                        )))
+                        :
+         
+                
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  AddressPage(amountToBePaid: '', userId: userId, cartlist: [],)));
+          },
+              
+              
+              
+              
               child: const Text(
                 'Continue',
                 style: TextStyle(color: Colors.white, fontSize: 24),

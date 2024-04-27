@@ -17,7 +17,8 @@ import 'package:miogra/models/shopping/category_model.dart';
 
 class CategoryPage extends StatefulWidget {
   final String category;
-  const CategoryPage({super.key, required this.category});
+  final String subCategory;
+  const CategoryPage({super.key, required this.category, required this.subCategory});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -98,33 +99,33 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
 
 
-          if (widget.category == "fashion")
-            Column(
-              children: [
+          // if (widget.category == "fashion")
+          //   Column(
+          //     children: [
                 
-                SizedBox(
-                  height: 100,
-                  child: GridView.builder(
-                    itemCount: 7,
-                    shrinkWrap: true,
-                    primary: false,
-                    scrollDirection: Axis.horizontal,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      crossAxisSpacing: 2,
-                    ),
-                    itemBuilder: (context, index) {
-                      return categoryItem(
-                          'assets/images/fashion.jpeg', 'Fashion', () {});
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+          //       SizedBox(
+          //         height: 100,
+          //         child: GridView.builder(
+          //           itemCount: 7,
+          //           shrinkWrap: true,
+          //           primary: false,
+          //           scrollDirection: Axis.horizontal,
+          //           gridDelegate:
+          //               const SliverGridDelegateWithFixedCrossAxisCount(
+          //             crossAxisCount: 1,
+          //             crossAxisSpacing: 2,
+          //           ),
+          //           itemBuilder: (context, index) {
+          //             return categoryItem(
+          //                 'assets/images/fashion.jpeg', 'Fashion', () {});
+          //           },
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         height: 20,
+          //       ),
+          //     ],
+          //   ),
 
           FutureBuilder<List<CategoryBasedShop>>(
                   future: futureProducts,
@@ -164,6 +165,8 @@ class _CategoryPageState extends State<CategoryPage> {
                       builder: (context) =>  ProductDetails(
                         shopId: snapshot.data![index].shopId,
                         productId: snapshot.data![index].productId,
+                        link: 'get_single_shopproduct',
+                        subCategory: widget.subCategory,
                            
                           )));
             });

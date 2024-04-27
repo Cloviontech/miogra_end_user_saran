@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:miogra/features/dOriginal/presentation/pages/d_original_check_out.dart';
 
 // Square Box With Maximum Details
@@ -7,7 +9,7 @@ Widget productBox(
     {required path,
     required String pName,
     required int oldPrice,
-    required int newPrice,
+    required double newPrice,
     required int offer,
     required Color color,
     required void Function() page}) {
@@ -27,7 +29,7 @@ Widget productBox(
               Expanded(
                 flex: 3,
                 child: Container(
-                  width: double.infinity,
+                  // width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -35,14 +37,14 @@ Widget productBox(
                       ),
                       border: Border.all(width: .3, color: color),
                       image: DecorationImage(
-                        image: AssetImage(path),
+                        image: NetworkImage(path),
                         fit: BoxFit.cover,
                       )),
                 ),
               ),
               Expanded(
                 child: Container(
-                  width: double.infinity,
+                  // width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(width: .3, color: color),
                     borderRadius: const BorderRadius.only(
@@ -50,59 +52,71 @@ Widget productBox(
                       bottomRight: Radius.circular(10),
                     ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: Text(
-                          pName,
-                          style: const TextStyle(
-                              color: Color(0xCC434343),
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "\u20B9$oldPrice",
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              decoration: TextDecoration.lineThrough,
-                              decorationThickness: 1.8,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            "\u20B9$newPrice",
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 13),
+                          child: Text(
+                            pName,
                             style: const TextStyle(
-                                color: Color(0xff870081),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                                color: Color(0xCC434343),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                overflow: TextOverflow.ellipsis),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 1.5),
-                            decoration: const BoxDecoration(
-                                color: Color(0xff0D7824),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(3))),
-                            child: Text(
-                              "$offer% OFF",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 11,
-                                  wordSpacing: .5),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AutoSizeText(
+                              "\u20B9$oldPrice",
+                               maxFontSize: 200,
+                                minFontSize: 0,
+                                 presetFontSizes: [10],
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                decoration: TextDecoration.lineThrough,
+                                decorationThickness: 1.8,
+                                // fontSize: 14,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    ],
+                            AutoSizeText(
+                              "\u20B9$newPrice",
+                              maxFontSize: 200,
+                               minFontSize: 0,
+                                presetFontSizes: [10],
+                              style: const TextStyle(
+                                  color: Color(0xff870081),
+                                  // fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Container(
+                              // padding: const EdgeInsets.symmetric(
+                              //     horizontal: 2, vertical: 1.5),
+                              decoration: const BoxDecoration(
+                                  color: Color(0xff0D7824),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(3))),
+                              child: AutoSizeText(
+                                "$offer% OFF",
+                                 maxFontSize: 200,
+                                 minFontSize: 0,
+                                 presetFontSizes: [10,15],
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    // fontSize: 11,
+                                    wordSpacing: .5),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -807,8 +821,16 @@ Widget rectangleBoxWithoutRatingWithQuantity(String path, String pName,
 }
 
 Widget productWithCounterWithRatings(
-    String path, String pName, int oldPrice, int newPrice, int offer, {BuildContext? context}) {
-  return Container(
+    String path, String pName, int oldPrice, double newPrice,
+     int offer, 
+     
+     
+     
+     
+      {BuildContext? context, }) {
+  return 
+  
+  Container(
     padding: const EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.all(
@@ -898,7 +920,11 @@ Widget productWithCounterWithRatings(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        // onTap: () {},
+                        onTap: () {
+                         
+
+                        },
                         child: Container(
                           decoration: const BoxDecoration(
                             color: Color(0xff870081),
@@ -920,8 +946,9 @@ Widget productWithCounterWithRatings(
                         height: 30,
                         width: 35,
                         alignment: Alignment.center,
-                        child: const Text(
+                        child:  Text(
                           "0",
+                          // qty.toString(),
                           style: TextStyle(
                               color: Color(0xff870081),
                               fontSize: 20,
@@ -930,9 +957,11 @@ Widget productWithCounterWithRatings(
                       ),
                       InkWell(
                         onTap: () {
-                          if (context != null){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const DOriginalCheckoutPage()));
-                          }
+
+                         
+                          // if (context != null){
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => const DOriginalCheckoutPage()));
+                          // }
                         },
                         child: Container(
                           decoration: const BoxDecoration(
@@ -960,6 +989,8 @@ Widget productWithCounterWithRatings(
       ],
     ),
   );
+
+
 }
 
 Widget productSharpBox(String path, String pName, String oldPrice, String newPrice,
@@ -1245,8 +1276,11 @@ Widget  foodItemBox() {
   );
 }
 
-Widget dailyMioItemBox() {
-  return Container(
+Widget dailyMioItemBox(String imagePath, String name, String price,) {
+  return 
+  
+  
+  Container(
     padding: const EdgeInsets.only(top: 7),
     child: Row(
       children: [
@@ -1259,9 +1293,13 @@ Widget dailyMioItemBox() {
                   // flex: 3,
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/appliances.jpeg'),
+                        image: NetworkImage(
+                          // 'assets/images/appliances.jpeg'
+                          imagePath,
+                          
+                          ),
                         fit: BoxFit.fill,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -1283,8 +1321,9 @@ Widget dailyMioItemBox() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Milma 1/2 litre Pack",
+                       Text(
+                        // "Milma 1/2 litre Pack",
+                        name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -1296,8 +1335,9 @@ Widget dailyMioItemBox() {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        "₹40",
+                       Text(
+                        // "₹40",
+                        price,
                         style:
                             TextStyle(fontSize: 19, color: Color(0xE6434343)),
                       ),
@@ -1350,6 +1390,8 @@ Widget dailyMioItemBox() {
       ],
     ),
   );
+
+
 }
 
 Widget usedProductBox({

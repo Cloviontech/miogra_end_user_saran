@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:miogra/controllers/shopping/fetch_category.dart';
+import 'package:miogra/core/api_services.dart';
 import 'package:miogra/core/colors.dart';
 import 'package:miogra/core/constants.dart';
 import 'package:miogra/core/product_box.dart';
 import 'package:miogra/core/widgets/common_widgets.dart';
-import 'package:miogra/features/profile/pages/your_order.dart';
+import 'package:miogra/core/widgets/your_order.dart';
+import 'package:miogra/features/jewellery/models/all_jewelproducts_model.dart';
 import 'package:miogra/features/shopping/presentation/pages/buy_now.dart';
 import 'package:miogra/features/shopping/presentation/widgets/ratings.dart';
 import 'package:miogra/features/shopping/presentation/widgets/recently_viewed.dart';
 import 'package:miogra/models/shopping/category_model.dart';
 import 'package:miogra/models/shopping/get_single_shopproduct.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetails extends StatefulWidget {
 
   
   final String? productId;
   final String? shopId;
+  final String? link;
+  final String? subCategory;
   
-  const ProductDetails({super.key,  this.productId,  this.shopId});
+  const ProductDetails({super.key,  this.productId,  this.shopId, this.link, this.subCategory});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -58,13 +64,80 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
+  
 
-  late Future<List<GetSingleShopproduct>> futureSingleProducts;
+ String userId = 'a';
+
+ 
+  addToCart(String productId, String subCategory, int quantity) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString("api_response").toString();
+    });
+
+    debugPrint('userId : $userId');
+    debugPrint('productId : $productId');
+    debugPrint('subCategory : $subCategory');
+    debugPrint('quantity : $quantity');
+
+    var headers = {
+      'Context-Type': 'application/json',
+    };
+
+    var requestBody = {
+      "quantity": quantity.toString(),
+      // 'area': areaController.text,
+    };
+
+    
+    try {
+      var response = await http.post(
+        Uri.parse(
+            "http://${ApiServices.ipAddress}/cart_product/$userId/$productId/$subCategory/"),
+        headers: headers,
+        body: requestBody,
+      );
+      debugPrint(
+          "http://${ApiServices.ipAddress}/cart_product/$userId/$productId/$subCategory/}");
+      debugPrint(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        debugPrint(response.body);
+        print('Product Added To Cart Successfully');
+      } else {
+        print('status code : ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+  late Future<List<GetSingleShopproduct>> futureSingleShopProducts;
+  late Future<List<AllJewelproducts>> futureSingleJewelProducts;
+  
   
   @override
   void initState() {
     super.initState();
-    futureSingleProducts = fetchSingleProducts(widget.shopId.toString(), widget.productId.toString());
+
+    widget.link == 'single_jewelproduct' ? 
+futureSingleJewelProducts =  fetchSingleJewelProducts(widget.shopId.toString(), 
+     widget.productId.toString(), 
+     widget.link.toString()) : widget.link == 'get_single_shopproduct' ?  
+
+    futureSingleShopProducts =  fetchSingleShopProducts(widget.shopId.toString(), 
+     widget.productId.toString(), 
+     widget.link.toString()) :
+    
+     fetchSingleJewelProducts(widget.shopId.toString(), 
+     widget.productId.toString(), 
+     widget.link.toString());
+
+    
+
+     
   }
 
   @override
@@ -93,7 +166,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Expanded(
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  addToCart(widget.productId.toString(), widget.subCategory.toString(),1 );
+                },
                 child: Container(
                   alignment: Alignment.center,
                   height: double.infinity,
@@ -139,8 +214,196 @@ class _ProductDetailsState extends State<ProductDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
+            widget.link == 'get_single_shopproduct' ? 
+
             FutureBuilder<List<GetSingleShopproduct>>(
-                  future: futureSingleProducts,
+                  future: futureSingleShopProducts,
+                  builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return
+            
+            
+          
+            
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 1)]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 300,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: NetworkImage('${snapshot.data![0].product!.primaryImage!}'),
+                        )),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 100,
+                    child: 
+                    
+                    GridView.builder(
+                      scrollDirection: Axis.horizontal,
+                      // itemCount: urls.length,
+                      itemCount: snapshot.data![0].product!.otherImages!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1, mainAxisSpacing: 5),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              url = urls1[index];
+                              // url = "http://192.168.1.6:8000//media/api/shop_products/QMC77LVGSXM/other_images/nokkiya_Qgkzkw2.jpg";
+  
+                            });
+                          },
+                          child: Container(
+                            width: 75,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                border: Border.all(width: .2),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      
+                                      snapshot.data![0].product!.otherImages![index]
+                                      // urls1[index]
+                                      // "http://192.168.1.6:8000//media/api/shop_products/QMC77LVGSXM/other_images/nokkiya_Qgkzkw2.jpg",
+  
+
+                                    
+                                    ))),
+                          ),
+                        );
+                      },
+                    ),
+                 
+                 
+                 
+                  ),
+                  const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                         Text(
+                          // "Trendy Men's Dress",
+                          snapshot.data![0].product!.name![0],
+                        //  '${snapshot.data![0].product!.primaryImage!}',
+                          style: TextStyle(fontSize: 21),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.share_outlined,
+                                color: primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.favorite_border,
+                                color: primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Text(
+                          // "₹641",
+                          snapshot.data![0].product!.actualPrice ![0],
+                          style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.grey,
+                              decorationColor: Colors.grey.shade700),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                         Text(
+                          // "₹641",
+                          snapshot.data![0].product!.sellingPrice.toString(),
+                          style: TextStyle(fontSize: 21),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Container(
+                          width: 75,
+                          height: 30,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          child:  Text(
+                            // "5% OFF",
+                            '${snapshot.data![0].product!.discountPrice![0]}% OFF',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                   Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                    "Seller ID : ${snapshot.data![0].shopId}",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Delivery Within 2 Days",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                  const SizedBox(height: 20)
+                ],
+              ),
+            );
+          
+          
+          
+          }
+                  },
+                )
+
+
+
+:
+
+
+ FutureBuilder<List<AllJewelproducts>>(
+                  future: futureSingleJewelProducts,
                   builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -292,7 +555,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                    Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      "Seller ID : ${snapshot.data![0].shopId}",
+                  "Seller ID : ${snapshot.data![0].jewelId}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),

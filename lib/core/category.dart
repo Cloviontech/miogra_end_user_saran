@@ -5,7 +5,7 @@ Widget categoryItem(String path, String name, void Function() page) {
     child: Column(
       children: [
         Expanded(
-          flex: 4,
+          flex: 3,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: InkWell(
@@ -30,7 +30,7 @@ Widget categoryItem(String path, String name, void Function() page) {
             name,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 14,
+              // fontSize: 10,
               color: Color(0xff870081),
               // fontWeight: FontWeight.w300
             ),
