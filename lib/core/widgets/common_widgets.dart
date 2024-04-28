@@ -88,7 +88,7 @@ class SelectPaymentMethod extends StatefulWidget {
       required this.addressIndex,
       required this.selectedFoods,
       this.totalAmount,
-      required this.cartlist, this.noOfProds});
+      required this.cartlist, this.noOfProds,  this.qty, this.totalQty, });
 
 //  final List<Map> addressSelected;
 
@@ -100,6 +100,12 @@ class SelectPaymentMethod extends StatefulWidget {
   final List<Cartlist> cartlist;
 
   final String? noOfProds;
+
+   final List<int>? qty;
+
+   final int? totalQty;
+
+  
 
   @override
   State<SelectPaymentMethod> createState() => _SelectPaymentMethodState();
@@ -168,12 +174,14 @@ class _SelectPaymentMethodState extends State<SelectPaymentMethod> {
   }
 
   Future createOrder() async {
+
+    debugPrint('createOrder method start');
     var request;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     uidUser = prefs.getString("api_response").toString();
 
-    print("uid for Update $uidUser ");
+   
     print('userid : $uidUser');
     debugPrint(widget.cartlist[0].foodProduct.toString());
 debugPrint(widget.cartlist[0].freshcutProduct.toString());
@@ -224,6 +232,8 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
        request.fields['quantity'] = '4';  
        request.fields['delivery_address'] = endUserMyData.addressData!.toJson().toString();  
        request.fields['payment_type'] = 'Cash On Delivery';  
+       request.fields['pincode'] = '600000';  
+       
        
 
 
@@ -260,31 +270,41 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
   }
 
    Future createSingleOrder() async {
+    debugPrint('createSingleOrder method start');
    
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     uidUser = prefs.getString("api_response").toString();
 
-    print("uid for Update $uidUser ");
+    // print("uid for Update $uidUser ");
     print('userid : $uidUser');
     debugPrint(widget.selectedFoods[0][1]);
+    debugPrint(widget.selectedFoods.length.toString());
+    debugPrint(widget.selectedFoods.toString());
+    // debugPrint(widget.);
 //     debugPrint(widget.cartlist[0].foodProduct.toString());
 // debugPrint(widget.cartlist[0].freshcutProduct.toString());
 
- final url = Uri.parse(
+
+
+for (var i = 0; i < widget.selectedFoods.length; i++) {
+
+  final url = Uri.parse(
             // "http://${ApiServices.ipAddress}/enduser_order_create/$uidUser/${widget.selectedFoods[0][1]}/food");
-"http://${ApiServices.ipAddress}/enduser_order_create/8MF6W8AC3BP/FQ02VWQ03QY/food");
-            debugPrint("http://${ApiServices.ipAddress}/enduser_order_create/8MF6W8AC3BP/FQ02VWQ03QY/food");
+"http://${ApiServices.ipAddress}/enduser_order_create/$uidUser/${widget.selectedFoods[i][1]}/food/");
+            debugPrint("http://${ApiServices.ipAddress}/enduser_order_create/$uidUser/${widget.selectedFoods[i][1]}/food/");
        var request = http.MultipartRequest('POST', url);
 
     
 
-       request.fields['quantity'] = '4';  
-       request.fields['delivery_address'] = endUserMyData.addressData!.toJson().toString();  
+       request.fields['quantity'] = widget.qty![i].toString();  
+       request.fields['delivery_address'] = 'Test Address';  
        request.fields['payment_type'] = 'Cash On Delivery';  
+       request.fields['pincode'] = '600001';  
+       
 
 
-       debugPrint(endUserMyData.addressData!.toJson().toString());
+      //  debugPrint(endUserMyData.addressData!.toJson().toString());
        
 
 
@@ -295,19 +315,30 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
         // print(response.body);
 
         if (response.statusCode == 200) {
-          setState(() {
-            orderPlacedSuccess++;
-          });
-          Fluttertoast.showToast(
-            msg: "Single Order Created Successfully...!",
+
+
+             Fluttertoast.showToast(
+            msg: "Cetogory Order Created Successfully...!",
             // backgroundColor: ColorConstant.deepPurpleA200,
             textColor: Colors.white,
             toastLength: Toast.LENGTH_SHORT,
           );
+          
+          setState(() {
+            orderPlacedSuccess++;
+            debugPrint(orderPlacedSuccess.toString());
+            debugPrint(widget.totalQty.toString());
+            
+          });
+             orderPlacedSuccess == widget.qty!.length ?
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>  OrderSuccess())) : null;
+    
+       
 
-          // print("about candidate ${_users.aboutCandidate}");
-          // Future.delayed(const Duration(seconds: 10), () {});
-          // Navigator.pushNamed(context, AppRoutes.FourteenScreenscr);
+       
+
+          
         }
 
         else {
@@ -317,6 +348,55 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
       } catch (e) {
         print("Error While Uploading$e");
       }
+  
+}
+
+//  final url = Uri.parse(
+//             // "http://${ApiServices.ipAddress}/enduser_order_create/$uidUser/${widget.selectedFoods[0][1]}/food");
+// "http://${ApiServices.ipAddress}/enduser_order_create/8MF6W8AC3BP/FQ02VWQ03QY/food");
+//             debugPrint("http://${ApiServices.ipAddress}/enduser_order_create/8MF6W8AC3BP/FQ02VWQ03QY/food");
+//        var request = http.MultipartRequest('POST', url);
+
+    
+
+//        request.fields['quantity'] = '4';  
+//        request.fields['delivery_address'] = endUserMyData.addressData!.toJson().toString();  
+//        request.fields['payment_type'] = 'Cash On Delivery';  
+
+
+//        debugPrint(endUserMyData.addressData!.toJson().toString());
+       
+
+
+//       try {
+//         final send = await request.send();
+//         final response = await http.Response.fromStream(send);
+//         print(response.statusCode);
+//         // print(response.body);
+
+//         if (response.statusCode == 200) {
+//           setState(() {
+//             orderPlacedSuccess++;
+//           });
+//           Fluttertoast.showToast(
+//             msg: "Single Order Created Successfully...!",
+//             // backgroundColor: ColorConstant.deepPurpleA200,
+//             textColor: Colors.white,
+//             toastLength: Toast.LENGTH_SHORT,
+//           );
+
+//           // print("about candidate ${_users.aboutCandidate}");
+//           // Future.delayed(const Duration(seconds: 10), () {});
+//           // Navigator.pushNamed(context, AppRoutes.FourteenScreenscr);
+//         }
+
+//         else {
+
+//           debugPrint(response.statusCode.toString());
+//         }
+//       } catch (e) {
+//         print("Error While Uploading$e");
+//       }
     }
 
     // if (orderPlacedSuccess == widget.cartlist.length) {
@@ -388,6 +468,8 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
     collectOrderedProductCategoryList = [];
 
     collectOrderedProductCategoryListMethod();
+
+    orderPlacedSuccess =0;
   }
 
   @override
@@ -403,6 +485,15 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    Text(widget.totalQty!.toString()),
+                    Text(orderPlacedSuccess.toString()),
+
+
+
+                    
+
+                    Text(widget.qty.toString()),
                     // Text(
                     //     'collectOrderedProductCategoryList : ${collectOrderedProductCategoryList.toString()}'),
                     // Text(
@@ -411,9 +502,9 @@ debugPrint(widget.cartlist[0].freshcutProduct.toString());
               
                     // Text(widget.cartlist[0].shopProduct.toString()),
                     // Text(widget.cartlist[0].foodProduct.toString()),
-                    Text(null.toString()),
-                    Text(orderPlacedSuccess.toString()),
-                    Text(widget.selectedFoods.toString()),
+                    // Text(null.toString()),
+                    // Text(orderPlacedSuccess.toString()),
+                    // Text(widget.selectedFoods.toString()),
                     paymentMethod(context),
                     Divider(),
                     SizedBox(

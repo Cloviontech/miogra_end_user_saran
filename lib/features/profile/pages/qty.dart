@@ -2,10 +2,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:miogra/core/widgets/your_order.dart';
+import 'package:miogra/features/shopping/presentation/pages/your_order.dart';
 
 import '../widgets/order_track_widgets.dart';
-import '../widgets/qty_widget.dart';
+import '../widgets/address_display_widget.dart';
 import 'order_track.dart';
 const List<String> list = <String>['Qty:1', 'Qty:2', 'Qty:3'];
 class QtyPage extends StatefulWidget {

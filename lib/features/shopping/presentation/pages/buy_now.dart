@@ -5,7 +5,7 @@ import 'package:miogra/controllers/shopping/fetch_category.dart';
 import 'package:miogra/core/colors.dart';
 import 'package:miogra/core/constants.dart';
 import 'package:miogra/features/profile/widgets/order_track_widgets.dart';
-import 'package:miogra/features/profile/widgets/qty_widget.dart';
+import 'package:miogra/features/profile/widgets/address_display_widget.dart';
 import 'package:miogra/models/shopping/get_single_shopproduct.dart';
 
 class OrderPage extends StatefulWidget {

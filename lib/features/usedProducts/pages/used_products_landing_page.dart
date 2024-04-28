@@ -1,15 +1,65 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:miogra/core/api_services.dart';
 import 'package:miogra/core/category.dart';
 import 'package:miogra/core/colors.dart';
 import 'package:miogra/core/data.dart';
 import 'package:miogra/core/product_box.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
+import 'package:miogra/features/usedProducts/models/get_allused_products.dart';
 import 'package:miogra/features/usedProducts/pages/product_upload_page.dart';
+import 'package:miogra/features/usedProducts/pages/select_category_selling_page.dart';
+import 'package:miogra/features/usedProducts/pages/single_used_product_details_page.dart';
+import 'package:miogra/features/usedProducts/pages/used_product_details_screen.dart';
+import 'package:miogra/features/usedProducts/pages/used_products_category_based_products.dart';
 import 'package:miogra/features/usedProducts/widgets/user_products_item.dart';
-
-class UsedProductsLandingPage extends StatelessWidget {
+import 'package:http/http.dart' as http;
+class UsedProductsLandingPage extends StatefulWidget {
   const UsedProductsLandingPage({super.key});
 
+  @override
+  State<UsedProductsLandingPage> createState() => _UsedProductsLandingPageState();
+}
+
+class _UsedProductsLandingPageState extends State<UsedProductsLandingPage> {
+ 
+
+   
+  bool loadingFetchGetAllusedProducts = true;
+
+  List<GetAllusedProducts> getAllusedProducts = [];
+
+  Future<void> fetchGetAllusedProducts() async {
+    final response = await http
+        .get(Uri.parse('http://${ApiServices.ipAddress}/get_allused_products/'));
+
+    debugPrint('http://${ApiServices.ipAddress}/get_allused_products');
+
+    debugPrint(response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+
+      setState(() {
+        getAllusedProducts =
+            jsonResponse.map((data) => GetAllusedProducts.fromJson(data)).toList();
+        loadingFetchGetAllusedProducts = false;
+      });
+
+      // return data.map((json) => FoodGetProducts.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+ 
+ 
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchGetAllusedProducts();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +132,12 @@ class UsedProductsLandingPage extends StatelessWidget {
                       return categoryItem(userProductsCategory[index]['image']!,
                           userProductsCategory[index]['name']!, () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const UsedProductsItem()));
+                                builder: (context) =>  
+                                
+                                // UsedProductsItem()
+                                UsedProductsCategoryBasedProductsScreen(subCategory: userProductsCategory[index]['name']!,)
+                                
+                                ));
                           });
                     },
                   ),
@@ -120,14 +175,21 @@ class UsedProductsLandingPage extends StatelessWidget {
                       itemCount: usedProductsItems.length,
                       itemBuilder: (context, index) {
                         return usedProductBox(
-                            image : usedProductsItems[index]["image"]!,
-                            pName: usedProductsItems[index]["name"]!,
-                            price: usedProductsItems[index]["price"]!,
+                            image : getAllusedProducts[index].product.primaryImage,
+                            pName:  getAllusedProducts[index].product.name,
+                            price:  getAllusedProducts[index].product.sellingPrice.toString(),
                             color:  const Color(0x6B870081),
                             contact: usedProductsItems[index]["contact"]!,
                             location: usedProductsItems[index]["location"]!,
                             page: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetails()));
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) =>  
+                              
+                              // UsedProductProductDetailsPage(
+                              //   productId: getAllusedProducts[index].product.productId,)
+                                UsedProductDetailsScreen()
+                                
+                                ));
                             });
                       },
                     ),
@@ -149,7 +211,7 @@ class UsedProductsLandingPage extends StatelessWidget {
         backgroundColor: primaryColor,
         child: const Text("Sell", style: TextStyle(color: Colors.white, fontSize: 20),),
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const UsedProductUpload()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectCategoryForSellingScreen()));
         },
         ),
     

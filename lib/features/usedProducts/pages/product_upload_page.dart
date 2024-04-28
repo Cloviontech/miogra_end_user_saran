@@ -32,7 +32,7 @@ class _UsedProductUploadState extends State<UsedProductUpload> {
                 "Product Details",
                 style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                     color: Color(0xFf3e3e3e)),
               ),
             ),

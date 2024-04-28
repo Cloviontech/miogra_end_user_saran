@@ -392,8 +392,21 @@ List<Map<String, dynamic>> freshCutTodayDeals = [
 // Used Products
 List<Map<String, String>> userProductsCategory = [
   {
-    "image": "assets/images/phone.jpeg",
+    "image": "assets/images/Ellipse 1 (4).png",
     "name": "Mobiles",
+  },
+   {
+    "image": "assets/images/car.jpg",
+    "name": "Cars",
+  },
+   {
+    "image": "assets/images/bike.webp",
+    "name": "Bikes & Scooters",
+  },
+  
+  {
+    "image": "assets/images/home.jpg",
+    "name": "Properties",
   },
   {
     "image": "assets/images/electronics.jpeg",
@@ -403,18 +416,8 @@ List<Map<String, String>> userProductsCategory = [
     "image": "assets/images/furniture.jpeg",
     "name": "Furnitures",
   },
-  {
-    "image": "assets/images/bike.webp",
-    "name": "Bikes",
-  },
-  {
-    "image": "assets/images/car.jpg",
-    "name": "Cars",
-  },
-  {
-    "image": "assets/images/home.jpg",
-    "name": "Properties",
-  },
+ 
+ 
 ];
 List<Map<String, String>> usedProductsItems = [
   {
@@ -452,4 +455,16 @@ List<Map<String, String>> usedProductsItems = [
     "contact": "9876543210",
     "location": "kanyakumari",
   },
+];
+
+
+List <String> sellCategories =[
+  'Electronics',
+  'Mobile',
+  'Electronics',
+  'Electronics',
+  'Electronics',
+  'Electronics',
+  'Electronics',
+  
 ];

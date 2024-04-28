@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:miogra/features/home_page/home_page.dart';
 import 'package:miogra/features/shopping/presentation/pages/shopping_landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +22,20 @@ class _OrderSuccessState extends State<OrderSuccess> {
     });
   }
 
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+    //  Fluttertoast.showToast(
+    //         msg: "Cetogory Order Created Successfully...!",
+    //         // backgroundColor: ColorConstant.deepPurpleA200,
+    //         textColor: Colors.white,
+    //         toastLength: Toast.LENGTH_SHORT,
+    //       );
+  }
   
 
   @override

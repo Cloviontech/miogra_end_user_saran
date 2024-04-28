@@ -12,7 +12,7 @@ import 'package:miogra/features/pharmacy/models/all_pharmproducts.dart';
 import 'package:miogra/features/pharmacy/presentation/pages/product_page.dart';
 import 'package:miogra/features/pharmacy/presentation/widgets/pharmacy_item.dart';
 import 'package:http/http.dart' as http;
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 
 class PharmacyLandingPage extends StatefulWidget {
   const PharmacyLandingPage({super.key});

@@ -1425,7 +1425,7 @@ Widget usedProductBox({
                   ),
                   border: Border.all(width: .3, color: color),
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover,
                   )),
             ),

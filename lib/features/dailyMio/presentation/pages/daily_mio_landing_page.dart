@@ -8,7 +8,7 @@ import 'package:miogra/core/data.dart';
 import 'package:miogra/core/product_box.dart';
 import 'package:miogra/features/dailyMio/models/all_dmioproducts_model.dart';
 import 'package:miogra/features/dailyMio/presentation/pages/d_mio_category_based_products.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/features/shopping/presentation/pages/shopping_landing_page.dart';
 import 'package:http/http.dart' as http;
 

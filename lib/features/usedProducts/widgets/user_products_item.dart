@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miogra/core/product_box.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/features/usedProducts/controllers/user_product_form_controllers.dart';
 
 class UsedProductsItem extends StatelessWidget {

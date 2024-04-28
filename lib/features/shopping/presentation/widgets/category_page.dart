@@ -10,7 +10,7 @@ import 'package:miogra/core/product_box.dart';
 import 'package:miogra/core/widgets/common_widgets.dart';
 import 'package:miogra/data/models/shopping/mobile_models.dart';
 import 'package:http/http.dart' as http;
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/models/shopping/category_model.dart';
 
 
@@ -40,8 +40,43 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
+
+           Container(
+              height: 70,
+              color: Color(0xff870081),
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          '',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+           
           Container(
             height: 65,
             color: const Color(0xff870081),
@@ -167,6 +202,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         productId: snapshot.data![index].productId,
                         link: 'get_single_shopproduct',
                         subCategory: widget.subCategory,
+                        
                            
                           )));
             });

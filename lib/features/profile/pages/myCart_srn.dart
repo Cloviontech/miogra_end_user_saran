@@ -605,11 +605,18 @@ class _MyCartState extends State<MyCart> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SelectPaymentMethod(
+                        builder: (context) => 
+
+                        // MyHomePage()
+                        
+                        SelectPaymentMethod(
                               addressIndex: 1, selectedFoods: [],
                               totalAmount: totalPrice, cartlist: cartlist,
                               // selectedFoods: orderedFoods,
-                            )));
+                            )
+                            
+                            
+                            ));
               },
               child: const Text(
                 'Continue',

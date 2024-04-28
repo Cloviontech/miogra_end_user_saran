@@ -436,10 +436,12 @@ class _OrderingForState extends State<OrderingFor> {
                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  SelectPaymentMethod(selectedFoods: widget.selectedFoods, 
+                        builder: (context) =>  SelectPaymentMethod(selectedFoods: widget.selectedFoods,
                         addressIndex: 0, cartlist: [],
                         totalAmount: widget.totalPrice +50,
                         noOfProds: widget.noOfProd,
+                        qty: widget.qty,
+                        totalQty: widget.totalQty,
                         )))
                         :
          

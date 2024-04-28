@@ -7,7 +7,7 @@ import 'package:miogra/core/data.dart';
 import 'package:miogra/core/product_box.dart';
 import 'package:miogra/features/freshCuts/presentation/pages/fresh_cut_product_details_page.dart';
 import 'package:miogra/features/freshCuts/presentation/widgets/fresh_cuts_product_page.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/models/freshcuts/all_freshcutproducts_model.dart';
 import 'package:http/http.dart' as http;
 

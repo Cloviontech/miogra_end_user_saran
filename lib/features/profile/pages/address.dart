@@ -8,7 +8,8 @@ import 'package:miogra/core/api_services.dart';
 import 'package:miogra/core/constants.dart';
 import 'package:miogra/core/widgets/common_widgets.dart';
 import 'package:miogra/features/food/presentation/pages/ordering_for_page.dart';
-import 'package:miogra/core/widgets/your_order.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_select_payment_screen.dart';
+import 'package:miogra/features/shopping/presentation/pages/your_order.dart';
 import 'package:miogra/features/shopping/presentation/pages/order_placed_succesfully.dart';
 import 'package:miogra/features/shopping/presentation/pages/payment.dart';
 import 'package:miogra/models/cart/cartlist_model.dart';
@@ -24,7 +25,7 @@ class AddressPage extends StatefulWidget {
       {super.key,
       required this.amountToBePaid,
       required this.userId,
-      this.selectedFoods, required this.cartlist});
+      this.selectedFoods, required this.cartlist, this.shopId, this.productId});
 
   final String amountToBePaid;
 
@@ -33,6 +34,10 @@ class AddressPage extends StatefulWidget {
   final List? selectedFoods;
 
    final List<Cartlist> cartlist;
+
+   final String? shopId;
+   final String? productId;
+   
 
   @override
   State<AddressPage> createState() => _AddressPageState();
@@ -133,9 +138,16 @@ class _AddressPageState extends State<AddressPage> {
               : Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SelectPaymentMethod(
+                      builder: (context) => 
+                      
+                      // ShoppingSelectPaymentMethod
+YourOrderPage
+                      (
+                        shopId: widget.shopId.toString(),
+                        productId: widget.productId.toString(),
                             // addressSelected: addressAdd,
-                            addressIndex: addressIndex, selectedFoods: [], cartlist: widget.cartlist,
+                            // addressIndex: addressIndex, selectedFoods: [], cartlist: widget.cartlist,
+
                           )));
         },
         style: ButtonStyle(
@@ -165,6 +177,10 @@ class _AddressPageState extends State<AddressPage> {
                 decoration: BoxDecoration(color: Colors.white),
                 child: Column(
                   children: [
+
+                  //   Text(widget.shopId.toString()),
+                  // Text(widget.productId.toString()),
+                  
                     // Text(endUserMyData.addressData.toString()),
                     // Text(singleUsersData[0].email),
                     // Text(endUserMyData.addressData!.district.toString()),
@@ -199,6 +215,11 @@ class _AddressPageState extends State<AddressPage> {
                             )),
                       ),
                     ),
+
+Text(singleUsersData[0].addressData.toString()),
+
+                    endUserMyData.addressData.toString() == 'null' ? 
+                    Text('No Address found... Please add Address...') :
                     ListView.builder(
                         primary: false,
                         shrinkWrap: true,
@@ -298,6 +319,9 @@ class _AddressPageState extends State<AddressPage> {
                             ),
                           );
                         }),
+                 
+                 
+                 
                   ],
                 ),
               ),

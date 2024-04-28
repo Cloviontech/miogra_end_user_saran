@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miogra/features/shopping/presentation/pages/payment.dart';
 import 'package:miogra/features/profile/pages/qty.dart';
-import 'package:miogra/features/profile/widgets/qty_widget.dart';
+import 'package:miogra/features/profile/widgets/address_display_widget.dart';
 import 'package:miogra/features/profile/widgets/your_order_widgets.dart';
 
 class ChooseAddress extends StatefulWidget {

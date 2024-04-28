@@ -13,7 +13,7 @@ import 'package:miogra/features/food/presentation/pages/food_items.dart';
 import 'package:miogra/features/food/presentation/pages/ordering_for_page.dart';
 import 'package:miogra/features/jewellery/models/all_jewelproducts_model.dart';
 import 'package:miogra/features/jewellery/presentation/pages/single_jewel_product_details_page.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/models/freshcuts/all_freshcutproducts_model.dart';
 
 import 'package:http/http.dart' as http;

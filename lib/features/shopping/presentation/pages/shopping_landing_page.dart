@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miogra/core/api_services.dart';
 import 'package:miogra/core/category.dart';
 import 'package:miogra/core/product_box.dart';
-import 'package:miogra/features/shopping/presentation/pages/product_details_page.dart';
+import 'package:miogra/features/shopping/presentation/pages/shopping_product_details_page.dart';
 import 'package:miogra/features/shopping/presentation/widgets/category_page.dart';
 import 'package:miogra/models/shopping/all_shopproducts_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';

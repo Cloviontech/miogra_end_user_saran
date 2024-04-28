@@ -19,7 +19,7 @@ Future<List<CategoryBasedShop>> fetchProducts(String product) async {
 }
 
 
-
+List < GetSingleShopproduct> getSingleShopproductS = [];
 
 Future<List<GetSingleShopproduct>> fetchSingleShopProducts(String shopId , String productId, String link) async {
   final response = await http.get(Uri.parse(
@@ -30,29 +30,20 @@ Future<List<GetSingleShopproduct>> fetchSingleShopProducts(String shopId , Strin
   if (response.statusCode == 200) {
     List<dynamic> data = json.decode(response.body);
 
+    getSingleShopproductS = data.map((dat) => GetSingleShopproduct.fromJson(dat)).toList();
+
     
     return data.map((json) => GetSingleShopproduct.fromJson(json)).toList();
-  } else {
-    throw Exception('Failed to load products');
-  }
-}
 
-
-Future<List<SingleFreshproduct>> fetchSingleFreshCutProducts1(String shopId , String productId) async {
-  final response = await http.get(Uri.parse(
-      // 'http://${ApiServices.ipAddress}/get_single_shopproduct/$shopId/$productId'));
-      'http://${ApiServices.ipAddress}/single_freshproduct/$shopId/$productId'));
-      
-
-  if (response.statusCode == 200) {
-    List<dynamic> jsonResponse = json.decode(response.body);
 
     
-    return jsonResponse.map((json) => SingleFreshproduct.fromJson(json)).toList();
+
   } else {
     throw Exception('Failed to load products');
   }
 }
+
+
 
 // "T6YZNIT6LRO", "product_id": "MV7TF27IMAG
 

@@ -4,6 +4,7 @@ import 'package:miogra/core/api_services.dart';
 import 'package:miogra/models/profile/all_users_data.dart';
 import 'package:miogra/models/profile/single_users_data.dart';
 import 'package:http/http.dart' as http;
+import 'package:miogra/models/profile/single_users_data1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //  fetchsingleUsersData() async {
@@ -24,7 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 //   }
 // }
 
-List<User> singleUsersData = [];
+List<SingleUsersData> singleUsersData = [];
 
 // String userId = '';
 
@@ -54,7 +55,7 @@ Future<void> fetchsingleUsersData() async {
 
     final List<dynamic> responseData = json.decode(response.body);
     // setState(() {
-    singleUsersData = responseData.map((json) => User.fromJson(json)).toList();
+    singleUsersData = responseData.map((json) => SingleUsersData.fromJson(json)).toList();
 
     // loadingFetchsingleUsersData = false;
 
